@@ -1,7 +1,7 @@
 THREE.CopyShader = {
 	uniforms: {
 		"tDiffuse": { type: "t", value: null },
-		"opacity":  { type: "f", value: 1.0 }
+		"opacity":  { type: "f", value: 0 }
 	},
 	vertexShader: [
 		"varying vec2 vUv;",
@@ -86,11 +86,9 @@ THREE.DotScreenShader = {
 THREE.RGBShiftShader = {
 
 	uniforms: {
-
-		"tDiffuse": { type: "t", value: null },
-		"amount":   { type: "f", value: 0.005 },
-		"angle":    { type: "f", value: 0.0 }
-
+		"tDiffuse": { type: "t", value: 1 },
+		"amount":   { type: "f", value: 1 },
+		"angle":    { type: "f", value: 1 }
 	},
 
 	vertexShader: [
@@ -219,10 +217,6 @@ THREE.DigitalGlitch = {
 	].join("\n")
 
 };
-
-/**
- * @author alteredq / http://alteredqualia.com/
- */
 
 THREE.EffectComposer = function ( renderer, renderTarget ) {
 
@@ -360,10 +354,6 @@ THREE.EffectComposer.prototype = {
 
 };
 
-/**
- * @author alteredq / http://alteredqualia.com/
- */
-
 THREE.RenderPass = function ( scene, camera, overrideMaterial, clearColor, clearAlpha ) {
 
 	this.scene = scene;
@@ -412,10 +402,6 @@ THREE.RenderPass.prototype = {
 
 };
 
-/**
- * @author alteredq / http://alteredqualia.com/
- */
-
 THREE.MaskPass = function ( scene, camera ) {
 
 	this.scene = scene;
@@ -429,61 +415,9 @@ THREE.MaskPass = function ( scene, camera ) {
 
 };
 
-THREE.MaskPass.prototype = {
-
-	render: function ( renderer, writeBuffer, readBuffer, delta ) {
-
-		var context = renderer.context;
-
-		// don't update color or depth
-
-		context.colorMask( false, false, false, false );
-		context.depthMask( false );
-
-		// set up stencil
-
-		var writeValue, clearValue;
-
-		if ( this.inverse ) {
-
-			writeValue = 0;
-			clearValue = 1;
-
-		} else {
-
-			writeValue = 1;
-			clearValue = 0;
-
-		}
-
-		context.enable( context.STENCIL_TEST );
-		context.stencilOp( context.REPLACE, context.REPLACE, context.REPLACE );
-		context.stencilFunc( context.ALWAYS, writeValue, 0xffffffff );
-		context.clearStencil( clearValue );
-
-		// draw into the stencil buffer
-
-		renderer.render( this.scene, this.camera, readBuffer, this.clear );
-		renderer.render( this.scene, this.camera, writeBuffer, this.clear );
-
-		// re-enable update of color and depth
-
-		context.colorMask( true, true, true, true );
-		context.depthMask( true );
-
-		// only render where stencil is set to 1
-
-		context.stencilFunc( context.EQUAL, 1, 0xffffffff );  // draw if == 1
-		context.stencilOp( context.KEEP, context.KEEP, context.KEEP );
-
-	}
-
-};
-
-
 THREE.ClearMaskPass = function () {
 
-	this.enabled = true;
+	this.enabled = false;
 
 };
 
@@ -499,13 +433,7 @@ THREE.ClearMaskPass.prototype = {
 
 };
 
-/**
- * @author alteredq / http://alteredqualia.com/
- */
-
 THREE.ShaderPass = function ( shader ) {
-
-	// this.textureID = ( textureID !== undefined ) ? textureID : "tDiffuse";
 
 	this.uniforms = THREE.UniformsUtils.clone( shader.uniforms );
 
@@ -518,17 +446,10 @@ THREE.ShaderPass = function ( shader ) {
 
 	} );
 
-	this.renderToScreen = false;
-
-	this.enabled = false;
-	this.needsSwap = true;
-	this.clear = false;
-
-
 	this.camera = new THREE.OrthographicCamera( -1, 1, 1, -1, 0, 1 );
 	this.scene  = new THREE.Scene();
 
-	this.quad = new THREE.Mesh( new THREE.PlaneBufferGeometry( 2, 2 ), null );
+	this.quad = new THREE.Mesh( new THREE.PlaneBufferGeometry( 1, 1 ), null );
 	this.scene.add( this.quad );
 
 };
@@ -559,10 +480,6 @@ THREE.ShaderPass.prototype = {
 
 };
 
-/**
-
- */
-
 THREE.GlitchPass = function ( dt_size ) {
 
 	if ( THREE.DigitalGlitch === undefined ) console.error( "THREE.GlitchPass relies on THREE.DigitalGlitch" );
@@ -570,11 +487,10 @@ THREE.GlitchPass = function ( dt_size ) {
 	var shader = THREE.DigitalGlitch;
 	this.uniforms = THREE.UniformsUtils.clone( shader.uniforms );
 
-	if(dt_size==undefined) dt_size=64;
+	if(dt_size==undefined) dt_size=1;
 
 
 	this.uniforms[ "tDisp"].value=this.generateHeightmap(dt_size);
-
 
 	this.material = new THREE.ShaderMaterial({
 		uniforms: this.uniforms,
@@ -583,9 +499,6 @@ THREE.GlitchPass = function ( dt_size ) {
 	});
 
 	this.enabled = true;
-	this.renderToScreen = false;
-	this.needsSwap = true;
-
 
 	this.camera = new THREE.OrthographicCamera( -1, 1, 1, -1, 0, 1 );
 	this.scene  = new THREE.Scene();
@@ -609,7 +522,7 @@ THREE.GlitchPass.prototype = {
 
 		if(this.curF % this.randX ==0 || this.goWild==true)
 		{
-			this.uniforms[ 'amount' ].value=Math.random()/30;
+			this.uniforms[ 'amount' ].value=Math.random()/3;
 			this.uniforms[ 'angle' ].value=THREE.Math.randFloat(-Math.PI,Math.PI);
 			this.uniforms[ 'seed_x' ].value=THREE.Math.randFloat(-1,1);
 			this.uniforms[ 'seed_y' ].value=THREE.Math.randFloat(-1,1);
@@ -618,9 +531,9 @@ THREE.GlitchPass.prototype = {
 			this.curF=1;
 			this.generateTrigger();
 		}
-		else if(this.curF % this.randX <this.randX/5)
+		else if(this.curF % this.randX <this.randX/9)
 		{
-			this.uniforms[ 'amount' ].value=Math.random()/90;
+			this.uniforms[ 'amount' ].value=Math.random()/900;
 			this.uniforms[ 'angle' ].value=THREE.Math.randFloat(-Math.PI,Math.PI);
 			this.uniforms[ 'distortion_x' ].value=THREE.Math.randFloat(0,1);
 			this.uniforms[ 'distortion_y' ].value=THREE.Math.randFloat(0,1);
@@ -669,56 +582,39 @@ THREE.GlitchPass.prototype = {
 	}
 };
 
-var container, stats, camera, scene, renderer, composer, mesh, group1, group2, light, sphere, lightMesh, quaternion, ring;
-var mouseX = 0, mouseY = 0;
-var SCREEN_WIDTH = window.innerWidth;
-var SCREEN_HEIGHT = window.innerHeight;
-var windowHalfX = window.innerWidth / 2;
-var windowHalfY = window.innerHeight / 2;
-
-var init = function(){
+var init = function() {
   scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera( 14, 800 / 440, 1, 10000 );
+  camera = new THREE.PerspectiveCamera( 14, 1, 1, 10000 );
   camera.position.z = 1800;
 
-  light = new THREE.DirectionalLight( 0xffffff );
-  light.position.set( 1.5, 1.5, 1.5 );
+  light = new THREE.DirectionalLight();
   scene.add( light );
-  scene.fog = new THREE.Fog( 0x000000, 200, 1 );
 
-  sphere = new THREE.SphereGeometry( 10, 16, 8, 1 );
-  lightMesh = new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: '#000' } ) );
-  scene.add( lightMesh );
-
-  var faceIndices = [ 'a', 'b', 'c', 'd' ];
-  var color, f, p, n, vertexIndex,
-    radius = 140,
-    geometry  = new THREE.IcosahedronGeometry( radius, 3 );
+  var radius = 172, geometry  = new THREE.IcosahedronGeometry( radius, 2 );
 
   var materials = [
-    new THREE.MeshLambertMaterial( { color: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } )
+    new THREE.MeshLambertMaterial( { color: '#333', shading: THREE.FlatShading, vertexColors: THREE.VertexColors } )
   ];
 
   group1 = THREE.SceneUtils.createMultiMaterialObject( geometry, materials );
-  group1.position.x = 0;
   scene.add( group1 );
 
-  ring = new THREE.TorusGeometry( 210, 1, 100, 50 );
-  var ringMaterial = new THREE.MeshLambertMaterial( {color: 0xffffff, shading: THREE.SmoothShading, vertexColors: THREE.VertexColors, side: THREE.DoubleSide } );
+  ring = new THREE.TorusGeometry(220, 3, 0, 24);
+  var ringMaterial = new THREE.MeshLambertMaterial( {color: '#999', shading: THREE.SmoothShading, vertexColors: THREE.VertexColors, side: THREE.DoubleSide } );
   group2 = new THREE.Mesh( ring, ringMaterial );
   scene.add( group2 );
 
   renderer = new THREE.WebGLRenderer();
   renderer.setClearColor("#141414");
-  renderer.setSize(800, 440);
-  renderer.setPixelRatio(1.6);
+  renderer.setSize(320, 320);
+  renderer.setPixelRatio(1);
   document.querySelector('main').append( renderer.domElement );
 
   composer = new THREE.EffectComposer( renderer );
   composer.addPass( new THREE.RenderPass( scene, camera ) );
 
   var effect = new THREE.ShaderPass( THREE.RGBShiftShader );
-  effect.uniforms[ 'amount' ].value = 0.01;
+  effect.uniforms[ 'amount' ].value = 0;
   effect.renderToScreen = true;
 
   composer.addPass( effect );
@@ -730,13 +626,13 @@ var init = function(){
 }
 
 function render() {
-  var timer = Date.now() * 0.0010;
+  var timer = Date.now() * 0.0001;
   camera.lookAt( scene.position );
 
-  group1.rotation.z = (timer / 2) + 45;
+  group1.rotation.z = (timer / 1) + 1;
 
   group2.rotation.x = timer;
-  group2.rotation.y = 45;
+  group2.rotation.y = 1;
 
   composer.render();
 }
