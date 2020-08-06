@@ -49,19 +49,14 @@ img {
 .hero {
   display: flex;
   margin-left: 200px;
+  padding-top: 200px;
   text-align: left;
-  margin-top: 200px;
-  height: 200vh;
 }
 
 .hero__title {
   font-size: 6em;
   opacity: 0;
   animation: reveal .3s ease-out .6s forwards;
-}
-
-@keyframes reveal {
-  100% {opacity: 1;}
 }
 
 .hero__title em {
@@ -76,7 +71,7 @@ img {
   font-family: 'Open sans';
   font-weight: lighter;
   font-size: 1.2em;
-  margin: 2em 0;
+  margin: 2em 0 4em;
   width: 70%;
   transform: translateY(-10px);
   opacity: 0;
@@ -92,6 +87,9 @@ img {
   animation: up 1s ease-in-out forwards;
   animation-delay: 1.3s;
   opacity: 0;
+  border: solid 1px #F2CCB0;
+  padding: 1em 2em;
+  width: 210px;
 }
 
 .hero__info {
@@ -103,17 +101,7 @@ img {
   animation: up .9s ease-in-out forwards;
   animation-delay: .6s;
   opacity: 0;
-}
-
-@keyframes up {
-  0% {
-    transform: translateY(-10px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  margin-top: -20px;
 }
 
 .ml12 .letter {
@@ -128,9 +116,71 @@ img {
   font-style: italic;
 }
 
+canvas {
+  height: 440px !important;
+  width: 440px !important;
+}
+
+.brand {
+  overflow: hidden;
+  animation: up 1s ease-in-out forwards;
+  animation-delay: 2s;
+  opacity: 0;
+}
+
+.ants {
+  position: relative;
+  font-size: 14em;
+  line-height: 1;
+  margin-top: 1em;
+  text-transform: uppercase;
+}
+
+.society {
+  position: relative;
+  font-size: 14em;
+  color: #F2CCB0;
+  line-height: 1;
+  margin-bottom: 1em;
+  text-transform: uppercase;
+  transform: translateX(-50%);
+}
+
+.cases {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.case {
+  margin: 2em;
+}
+
+.case:nth-child(2) {
+  transform: translateX(50%);
+}
+
+.case:last-child {
+  transform: translateX(50%);
+}
+
+.cases__title {
+  position: absolute;
+  font-size: 10em;
+  color: #333;
+  width: 50%;
+  transform: rotate(-90deg);
+  left: 0;
+  line-height: 1;
+}
+
 @media (max-width: 1632px) {
   .hero__info {
     flex: 2;
+  }
+  .hero__title {
+    font-size: 5.4em;
   }
 }
 
@@ -141,6 +191,10 @@ img {
   .hero__title {
     font-size: 5em;
   }
+  canvas {
+    height: 320px !important;
+    width: 320px !important;
+  }
 }
 
 @media (max-width: 990px) {
@@ -148,7 +202,7 @@ img {
     flex-direction: column-reverse;
     align-items: center;
     margin-left: auto;
-    margin-top: 0;
+    padding-top: 2em;
   }
   .header {
     position: relative;
@@ -179,7 +233,6 @@ img {
     max-width: 500px;
   }
   .hero__link {
-    width: 100%;
     display: block;
     margin: 0 auto;
     font-size: 1em;
@@ -188,5 +241,29 @@ img {
   .hero__globe {
     flex: initial;
     margin-bottom: -80px;
+  }
+  .ants {
+    font-size: 60px;
+  }
+  .society {
+    font-size: 60px;
+  }
+  .cases__title {
+    font-size: 2.4em;
+  }
+}
+
+@keyframes reveal {
+  100% {opacity: 1;}
+}
+
+@keyframes up {
+  0% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
   }
 }

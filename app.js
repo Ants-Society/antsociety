@@ -492,7 +492,7 @@ anime.timeline({loop: false})
     translateZ: 0,
     opacity: [0,1],
     easing: "easeOutExpo",
-    duration: 1200,
+    duration: 700,
     delay: (el, i) => 500 + 30 * i
   })
 
@@ -506,6 +506,29 @@ anime.timeline({loop: false})
     translateZ: 0,
     opacity: [0,1],
     easing: "easeOutExpo",
-    duration: 3000,
+    duration: 1400,
     delay: (el, i) => 500 + 30 * i
   })
+
+const controller = new ScrollMagic.Controller()
+const tween = new TimelineLite()
+  .add(
+    TweenLite.fromTo('.ants', 1, {
+      left: '100%'
+    }, {
+      left: 0
+    })
+  ).add(
+    TweenLite.to('.society', 1, {
+      left: window.innerWidth / 1.5,
+      delay: -1
+    })
+  )
+
+new ScrollMagic.Scene({
+  triggerElement: 'body',
+  duration: "100%",
+  triggerHook: 0
+})
+  .setTween(tween)
+  .addTo(controller)
