@@ -10,7 +10,6 @@ THREE.CopyShader = {
 			"gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
 		"}"
 	].join("\n"),
-
 	fragmentShader: [
 		"uniform float opacity;",
 		"uniform sampler2D tDiffuse;",
@@ -23,113 +22,71 @@ THREE.CopyShader = {
 };
 
 THREE.DotScreenShader = {
-
 	uniforms: {
-
 		"tDiffuse": { type: "t", value: null },
 		"tSize":    { type: "v2", value: new THREE.Vector2( 256, 256 ) },
 		"center":   { type: "v2", value: new THREE.Vector2( 0.5, 0.5 ) },
 		"angle":    { type: "f", value: 1.57 },
 		"scale":    { type: "f", value: 1.0 }
-
 	},
-
 	vertexShader: [
-
 		"varying vec2 vUv;",
-
 		"void main() {",
-
 			"vUv = uv;",
 			"gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
-
 		"}"
-
 	].join("\n"),
-
 	fragmentShader: [
-
 		"uniform vec2 center;",
 		"uniform float angle;",
 		"uniform float scale;",
 		"uniform vec2 tSize;",
-
 		"uniform sampler2D tDiffuse;",
-
 		"varying vec2 vUv;",
-
 		"float pattern() {",
-
 			"float s = sin( angle ), c = cos( angle );",
-
 			"vec2 tex = vUv * tSize - center;",
 			"vec2 point = vec2( c * tex.x - s * tex.y, s * tex.x + c * tex.y ) * scale;",
-
 			"return ( sin( point.x ) * sin( point.y ) ) * 4.0;",
-
 		"}",
-
 		"void main() {",
-
 			"vec4 color = texture2D( tDiffuse, vUv );",
-
 			"float average = ( color.r + color.g + color.b ) / 3.0;",
-
 			"gl_FragColor = vec4( vec3( average * 10.0 - 5.0 + pattern() ), color.a );",
-
 		"}"
-
 	].join("\n")
-
 };
 
 THREE.RGBShiftShader = {
-
 	uniforms: {
 		"tDiffuse": { type: "t", value: 1 },
 		"amount":   { type: "f", value: 1 },
 		"angle":    { type: "f", value: 1 }
 	},
-
 	vertexShader: [
-
 		"varying vec2 vUv;",
-
 		"void main() {",
-
 			"vUv = uv;",
 			"gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
-
 		"}"
-
 	].join("\n"),
-
 	fragmentShader: [
-
 		"uniform sampler2D tDiffuse;",
 		"uniform float amount;",
 		"uniform float angle;",
-
 		"varying vec2 vUv;",
-
 		"void main() {",
-
 			"vec2 offset = amount * vec2( cos(angle), sin(angle));",
 			"vec4 cr = texture2D(tDiffuse, vUv + offset);",
 			"vec4 cga = texture2D(tDiffuse, vUv);",
 			"vec4 cb = texture2D(tDiffuse, vUv - offset);",
 			"gl_FragColor = vec4(cr.r, cga.g, cb.b, cga.a);",
-
 		"}"
-
 	].join("\n")
-
 };
 
 THREE.DigitalGlitch = {
-
 	uniforms: {
-
 		"tDiffuse":		{ type: "t", value: null },//diffuse texture
 		"tDisp":		{ type: "t", value: null },//displacement texture for digital glitch squares
 		"byp":			{ type: "i", value: 0 },//apply the glitch ?
@@ -142,22 +99,17 @@ THREE.DigitalGlitch = {
 		"distortion_y":	{ type: "f", value: 0.6 },
 		"col_s":		{ type: "f", value: 0.05 }
 	},
-
 	vertexShader: [
-
 		"varying vec2 vUv;",
 		"void main() {",
 			"vUv = uv;",
 			"gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
 		"}"
 	].join("\n"),
-
 	fragmentShader: [
 		"uniform int byp;",//should we apply the glitch ?
-
 		"uniform sampler2D tDiffuse;",
 		"uniform sampler2D tDisp;",
-
 		"uniform float amount;",
 		"uniform float angle;",
 		"uniform float seed;",
@@ -166,14 +118,10 @@ THREE.DigitalGlitch = {
 		"uniform float distortion_x;",
 		"uniform float distortion_y;",
 		"uniform float col_s;",
-
 		"varying vec2 vUv;",
-
-
 		"float rand(vec2 co){",
 			"return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);",
 		"}",
-
 		"void main() {",
 			"if(byp<1) {",
 				"vec2 p = vUv;",
@@ -213,284 +161,175 @@ THREE.DigitalGlitch = {
 				"gl_FragColor=texture2D (tDiffuse, vUv);",
 			"}",
 		"}"
-
 	].join("\n")
-
 };
 
 THREE.EffectComposer = function ( renderer, renderTarget ) {
-
 	this.renderer = renderer;
-
 	if ( renderTarget === undefined ) {
-
 		var pixelRatio = renderer.getPixelRatio();
-
 		var width  = Math.floor( renderer.context.canvas.width  / pixelRatio ) || 1;
 		var height = Math.floor( renderer.context.canvas.height / pixelRatio ) || 1;
 		var parameters = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat, stencilBuffer: false };
-
 		renderTarget = new THREE.WebGLRenderTarget( width, height, parameters );
-
 	}
 
 	this.renderTarget1 = renderTarget;
 	this.renderTarget2 = renderTarget.clone();
-
 	this.writeBuffer = this.renderTarget1;
 	this.readBuffer = this.renderTarget2;
-
 	this.passes = [];
 
 	if ( THREE.CopyShader === undefined )
 		console.error( "THREE.EffectComposer relies on THREE.CopyShader" );
 
 	this.copyPass = new THREE.ShaderPass( THREE.CopyShader );
-
 };
 
 THREE.EffectComposer.prototype = {
-
 	swapBuffers: function() {
-
 		var tmp = this.readBuffer;
 		this.readBuffer = this.writeBuffer;
 		this.writeBuffer = tmp;
-
 	},
-
 	addPass: function ( pass ) {
-
 		this.passes.push( pass );
-
 	},
-
 	insertPass: function ( pass, index ) {
-
 		this.passes.splice( index, 0, pass );
-
 	},
-
 	render: function ( delta ) {
-
 		this.writeBuffer = this.renderTarget1;
 		this.readBuffer = this.renderTarget2;
-
 		var maskActive = false;
-
 		var pass, i, il = this.passes.length;
-
 		for ( i = 0; i < il; i ++ ) {
-
 			pass = this.passes[ i ];
-
 			if ( !pass.enabled ) continue;
-
 			pass.render( this.renderer, this.writeBuffer, this.readBuffer, delta, maskActive );
-
 			if ( pass.needsSwap ) {
-
 				if ( maskActive ) {
-
 					var context = this.renderer.context;
-
 					context.stencilFunc( context.NOTEQUAL, 1, 0xffffffff );
-
 					this.copyPass.render( this.renderer, this.writeBuffer, this.readBuffer, delta );
-
 					context.stencilFunc( context.EQUAL, 1, 0xffffffff );
-
 				}
-
 				this.swapBuffers();
-
 			}
-
 			if ( pass instanceof THREE.MaskPass ) {
-
 				maskActive = true;
-
 			} else if ( pass instanceof THREE.ClearMaskPass ) {
-
 				maskActive = false;
-
 			}
-
 		}
-
 	},
-
 	reset: function ( renderTarget ) {
-
 		if ( renderTarget === undefined ) {
-
 			renderTarget = this.renderTarget1.clone();
-
 			var pixelRatio = renderer.getPixelRatio();
-
 			renderTarget.width  = Math.floor( this.renderer.context.canvas.width  / pixelRatio );
 			renderTarget.height = Math.floor( this.renderer.context.canvas.height / pixelRatio );
-
 		}
-
 		this.renderTarget1 = renderTarget;
 		this.renderTarget2 = renderTarget.clone();
-
 		this.writeBuffer = this.renderTarget1;
 		this.readBuffer = this.renderTarget2;
-
 	},
-
 	setSize: function ( width, height ) {
-
 		var renderTarget = this.renderTarget1.clone();
-
 		renderTarget.width = width;
 		renderTarget.height = height;
-
 		this.reset( renderTarget );
-
 	}
-
 };
 
 THREE.RenderPass = function ( scene, camera, overrideMaterial, clearColor, clearAlpha ) {
-
 	this.scene = scene;
 	this.camera = camera;
-
 	this.overrideMaterial = overrideMaterial;
-
 	this.clearColor = clearColor;
 	this.clearAlpha = ( clearAlpha !== undefined ) ? clearAlpha : 1;
-
 	this.oldClearColor = new THREE.Color();
 	this.oldClearAlpha = 1;
-
 	this.enabled = true;
 	this.clear = true;
 	this.needsSwap = false;
-
 };
 
 THREE.RenderPass.prototype = {
-
 	render: function ( renderer, writeBuffer, readBuffer, delta ) {
-
 		this.scene.overrideMaterial = this.overrideMaterial;
-
 		if ( this.clearColor ) {
-
 			this.oldClearColor.copy( renderer.getClearColor() );
 			this.oldClearAlpha = renderer.getClearAlpha();
-
 			renderer.setClearColor( this.clearColor, this.clearAlpha );
-
 		}
-
 		renderer.render( this.scene, this.camera, readBuffer, this.clear );
-
 		if ( this.clearColor ) {
-
 			renderer.setClearColor( this.oldClearColor, this.oldClearAlpha );
-
 		}
-
 		this.scene.overrideMaterial = null;
-
 	}
-
 };
 
 THREE.MaskPass = function ( scene, camera ) {
-
 	this.scene = scene;
 	this.camera = camera;
-
 	this.enabled = true;
 	this.clear = true;
 	this.needsSwap = false;
-
 	this.inverse = false;
-
 };
 
 THREE.ClearMaskPass = function () {
-
 	this.enabled = false;
-
 };
 
 THREE.ClearMaskPass.prototype = {
-
 	render: function ( renderer, writeBuffer, readBuffer, delta ) {
-
 		var context = renderer.context;
-
 		context.disable( context.STENCIL_TEST );
-
 	}
-
 };
 
 THREE.ShaderPass = function ( shader ) {
-
 	this.uniforms = THREE.UniformsUtils.clone( shader.uniforms );
-
 	this.material = new THREE.ShaderMaterial( {
-
         	defines: shader.defines || {},
 		uniforms: this.uniforms,
 		vertexShader: shader.vertexShader,
 		fragmentShader: shader.fragmentShader
-
 	} );
 
 	this.camera = new THREE.OrthographicCamera( -1, 1, 1, -1, 0, 1 );
 	this.scene  = new THREE.Scene();
-
 	this.quad = new THREE.Mesh( new THREE.PlaneBufferGeometry( 1, 1 ), null );
 	this.scene.add( this.quad );
-
 };
 
 THREE.ShaderPass.prototype = {
-
 	render: function ( renderer, writeBuffer, readBuffer, delta ) {
-
 		if ( this.uniforms[ this.textureID ] ) {
-
 			this.uniforms[ this.textureID ].value = readBuffer;
-
 		}
 
 		this.quad.material = this.material;
 
 		if ( this.renderToScreen ) {
-
 			renderer.render( this.scene, this.camera );
-
 		} else {
-
 			renderer.render( this.scene, this.camera, writeBuffer, this.clear );
-
 		}
-
 	}
-
 };
 
-THREE.GlitchPass = function ( dt_size ) {
-
+THREE.GlitchPass = function () {
 	if ( THREE.DigitalGlitch === undefined ) console.error( "THREE.GlitchPass relies on THREE.DigitalGlitch" );
 
 	var shader = THREE.DigitalGlitch;
 	this.uniforms = THREE.UniformsUtils.clone( shader.uniforms );
 
-	if(dt_size==undefined) dt_size=1;
-
-
-	this.uniforms[ "tDisp"].value=this.generateHeightmap(dt_size);
+	this.uniforms[ "tDisp"].value=this.generateHeightmap(1);
 
 	this.material = new THREE.ShaderMaterial({
 		uniforms: this.uniforms,
@@ -509,11 +348,9 @@ THREE.GlitchPass = function ( dt_size ) {
 	this.goWild=false;
 	this.curF=1;
 	this.generateTrigger();
-
 };
 
 THREE.GlitchPass.prototype = {
-
 	render: function ( renderer, writeBuffer, readBuffer, delta )
 	{
 		this.uniforms[ "tDiffuse" ].value = readBuffer;
@@ -522,7 +359,7 @@ THREE.GlitchPass.prototype = {
 
 		if(this.curF % this.randX ==0 || this.goWild==true)
 		{
-			this.uniforms[ 'amount' ].value=Math.random()/3;
+			this.uniforms[ 'amount' ].value=Math.random()/30;
 			this.uniforms[ 'angle' ].value=THREE.Math.randFloat(-Math.PI,Math.PI);
 			this.uniforms[ 'seed_x' ].value=THREE.Math.randFloat(-1,1);
 			this.uniforms[ 'seed_y' ].value=THREE.Math.randFloat(-1,1);
@@ -531,9 +368,9 @@ THREE.GlitchPass.prototype = {
 			this.curF=1;
 			this.generateTrigger();
 		}
-		else if(this.curF % this.randX <this.randX/9)
+		else if(this.curF % this.randX <this.randX/20)
 		{
-			this.uniforms[ 'amount' ].value=Math.random()/900;
+			this.uniforms[ 'amount' ].value=Math.random()/20;
 			this.uniforms[ 'angle' ].value=THREE.Math.randFloat(-Math.PI,Math.PI);
 			this.uniforms[ 'distortion_x' ].value=THREE.Math.randFloat(0,1);
 			this.uniforms[ 'distortion_y' ].value=THREE.Math.randFloat(0,1);
@@ -558,7 +395,7 @@ THREE.GlitchPass.prototype = {
 	},
 	generateTrigger:function()
 	{
-		this.randX=THREE.Math.randInt(120,240);
+		this.randX=THREE.Math.randInt(2,100);
 	},
 	generateHeightmap:function(dt_size)
 	{
@@ -567,7 +404,7 @@ THREE.GlitchPass.prototype = {
 
 		for ( var i = 0; i < length; i++)
 		{
-			var val=THREE.Math.randFloat(0,1);
+			var val=THREE.Math.randFloat(0,40);
 			data_arr[ i*3 + 0 ] = val;
 			data_arr[ i*3 + 1 ] = val;
 			data_arr[ i*3 + 2 ] = val;
@@ -593,7 +430,7 @@ var init = function() {
   var radius = 172, geometry  = new THREE.IcosahedronGeometry( radius, 2 );
 
   var materials = [
-    new THREE.MeshLambertMaterial( { color: '#333', shading: THREE.FlatShading, vertexColors: THREE.VertexColors } )
+    new THREE.MeshLambertMaterial( { color: '#666', shading: THREE.FlatShading, vertexColors: THREE.VertexColors } )
   ];
 
   group1 = THREE.SceneUtils.createMultiMaterialObject( geometry, materials );
@@ -608,7 +445,7 @@ var init = function() {
   renderer.setClearColor("#141414");
   renderer.setSize(320, 320);
   renderer.setPixelRatio(1);
-  document.querySelector('main').append( renderer.domElement );
+  document.querySelector('.globe').append( renderer.domElement );
 
   composer = new THREE.EffectComposer( renderer );
   composer.addPass( new THREE.RenderPass( scene, camera ) );
@@ -644,3 +481,31 @@ var animate = function() {
 
 window.onload = this.init()
 window.onload = this.animate()
+
+var textWrapper = document.querySelector('h1.ml12');
+textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+
+anime.timeline({loop: false})
+  .add({
+    targets: 'h1.ml12 .letter',
+    translateX: [40,0],
+    translateZ: 0,
+    opacity: [0,1],
+    easing: "easeOutExpo",
+    duration: 1200,
+    delay: (el, i) => 500 + 30 * i
+  })
+
+var textWrapper = document.querySelector('h2.ml12');
+textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+
+anime.timeline({loop: false})
+  .add({
+    targets: 'h2.ml12 .letter',
+    translateX: [40,0],
+    translateZ: 0,
+    opacity: [0,1],
+    easing: "easeOutExpo",
+    duration: 3000,
+    delay: (el, i) => 500 + 30 * i
+  })
