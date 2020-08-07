@@ -514,7 +514,7 @@ const controller = new ScrollMagic.Controller()
 const tween = new TimelineLite()
   .add(
     TweenLite.fromTo('.ants', 1, {
-      left: '100%'
+      left: '50%'
     }, {
       left: 0
     })
@@ -523,11 +523,23 @@ const tween = new TimelineLite()
       left: window.innerWidth / 1.5,
       delay: -1
     })
+  ).add(
+    TweenLite.to('.one', 1, {
+      y: -50
+    })
+  ).add(
+    TweenLite.to('.two', 1, {
+      y: -100
+    })
+  ).add(
+    TweenLite.to('.three', 1, {
+      y: -150
+    })
   )
 
 new ScrollMagic.Scene({
   triggerElement: 'body',
-  duration: "100%",
+  duration: "200%",
   triggerHook: 0
 })
   .setTween(tween)
