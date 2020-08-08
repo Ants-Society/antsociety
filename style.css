@@ -90,6 +90,12 @@ img {
   border: solid 1px #F2CCB0;
   padding: 1em 2em;
   width: 210px;
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.hero__link:hover {
+  background-color: #F2CCB0;
+  color: #141414;
 }
 
 .hero__info {
@@ -153,14 +159,6 @@ canvas {
   align-items: center;
 }
 
-.case:nth-child(2) {
-  transform: translateX(50%);
-}
-
-.case:last-child {
-  transform: translateX(50%);
-}
-
 .cases__title {
   position: absolute;
   font-size: 10em;
@@ -171,25 +169,19 @@ canvas {
   line-height: 1;
 }
 
-.footer__title {
-  text-align: center;
-  font-size: 4em;
+.one {
+  opacity: 0;
+  transform: perspective(1000px) rotateX(35deg) rotateY(4deg) rotateZ(-30deg);
 }
 
-.footer__title em {
-  color: #F2CCB0;
+.two {
+  opacity: 0;
+  transform: perspective(1000px) rotateX(35deg) rotateY(4deg) rotateZ(30deg) translateX(50%);
 }
 
-.footer__svg {
-  display: block;
-  margin: 2em auto;
-}
-
-.footer__info {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 4em;
+.three {
+  opacity: 0;
+  transform: perspective(1000px) rotateX(35deg) rotateY(4deg) rotateZ(-30deg);
 }
 
 .works {
@@ -233,6 +225,27 @@ canvas {
   font-size: 1.6em;
 }
 
+.footer__title {
+  text-align: center;
+  font-size: 4em;
+}
+
+.footer__title em {
+  color: #F2CCB0;
+}
+
+.footer__svg {
+  display: block;
+  margin: 2em auto;
+}
+
+.footer__info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4em;
+}
+
 @media (max-width: 1632px) {
   .hero__info {
     flex: 2;
@@ -256,23 +269,23 @@ canvas {
   .cases__title {
     display: none;
   }
-  .case:nth-child(2) {
-    transform: translateX(-25%);
-  }
-  .case:last-child {
-    transform: translateX(25%);
-  }
   .footer__title {
     font-size: 2em;
   }
-  .footer__info {
-    justify-content: space-evenly;
+  .contact__link {
+    padding: 1em;
   }
   .works {
     flex-direction: column;
   }
   .work {
     padding: 1em 0;
+  }
+  .one,
+  .two,
+  .three {
+    opacity: 1;
+    transform: perspective(1000px) rotateX(5deg) rotateY(2deg) rotateZ(3deg);
   }
 }
 
@@ -332,7 +345,7 @@ canvas {
   }
   .cases {
     margin: 0 auto;
-    width: 260px;
+    width: 300px;
     margin-bottom: 4em;
   }
   .footer__title {
@@ -350,14 +363,11 @@ canvas {
   .work:first-child {
     flex: 1;
   }
-  .blob {
-    width: 300px;
-  }
-  .case:nth-child(2) {
-    transform: translateX(0);
-  }
-  .case:last-child {
-    transform: translateX(0);
+}
+
+@media (max-width: 320px) {
+  .cases {
+    width: 260px;
   }
 }
 

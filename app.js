@@ -437,7 +437,7 @@ var init = function() {
   scene.add( group1 );
 
   ring = new THREE.TorusGeometry(220, 3, 0, 24);
-  var ringMaterial = new THREE.MeshLambertMaterial( {color: '#999', shading: THREE.SmoothShading, vertexColors: THREE.VertexColors, side: THREE.DoubleSide } );
+  var ringMaterial = new THREE.MeshLambertMaterial( {color: '#F2CCB0', shading: THREE.SmoothShading, vertexColors: THREE.VertexColors, side: THREE.DoubleSide } );
   group2 = new THREE.Mesh( ring, ringMaterial );
   scene.add( group2 );
 
@@ -525,15 +525,29 @@ const tween = new TimelineLite()
     })
   ).add(
     TweenLite.to('.one', 1, {
-      y: -50
+      y: -50,
+      opacity: 1,
+      rotationX: 0,
+      rotationY: 0,
+      rotationZ: 0,
     })
   ).add(
     TweenLite.to('.two', 1, {
-      y: -100
+      y: -100,
+      opacity: 1,
+      rotationX: 0,
+      rotationY: 0,
+      rotationZ: 0,
+      delay: -0.5
     })
   ).add(
     TweenLite.to('.three', 1, {
-      y: -150
+      y: -150,
+      opacity: 1,
+      rotationX: 0,
+      rotationY: 0,
+      rotationZ: 0,
+      delay: -0.5
     })
   )
 
