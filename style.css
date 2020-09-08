@@ -178,23 +178,13 @@ canvas {
 }
 
 .case h4 {
-  font-size: 1.6em;
   text-decoration: none;
-  background-color: transparent;
-  margin-top: -4px;
-  padding: .4em 1em;
   transition: .3s;
-  opacity: 0;
   letter-spacing: .1em;
   color: #F2CCB0;
-}
-
-.case:hover h4 {
-  transform: translateY(-4em);
-  background-color: rgba(100, 100, 100,.8);
-  backdrop-filter: blur(4px);
-  opacity: 1;
-  padding: 1em;
+  font-size: 1.6em;
+  padding: .6em;
+  backdrop-filter: blur(6px);
 }
 
 .case:hover {
@@ -397,7 +387,6 @@ canvas {
   }
   .case h4 {
     font-size: 1em;
-    opacity: 1;
     padding: .2em;
   }
 }
