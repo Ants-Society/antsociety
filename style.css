@@ -169,12 +169,12 @@ canvas {
   line-height: 1;
 }
 
-.case {
-  -webkit-backface-visibility: hidden;
-  position: relative;
+.case{
+-webkit-backface-visibility: hidden;
+position: relative;
   transition: box-shadow .4s cubic-bezier(.25,.8,.25,1);
   overflow: hidden;
-  color: transparent;
+  color: transparent
 }
 
 .case h4 {
