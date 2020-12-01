@@ -27,6 +27,10 @@ img {
   height: auto;
 }
 
+.bold {
+  font-weight: 700;
+}
+
 .header {
   position: fixed;
   top: 0;
@@ -191,9 +195,80 @@ canvas {
   z-index: 99;
 }
 
-.one {
-  opacity: 0;
-  transform: perspective(1000px) rotateX(35deg) rotateY(4deg) rotateZ(-30deg);
+.case1 {
+  display: flex;
+  flex-direction: column;  
+}
+
+.case1__titleAndClient {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  align-self: flex-end;
+  margin-bottom: 30px;
+}
+
+.case1__title {
+  width: 85%;
+  align-self: flex-start;
+  font-family: Vidaloka;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 46px;
+  line-height: 56px;
+  color: #f2ccb0;
+  margin-bottom: 35px;
+}
+
+.case1__infosAndImg {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;  
+}
+
+.case1__infos {
+  width: 20%;
+  height: 265px;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  justify-content: space-evenly;
+}
+
+.case1__titleStack {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 35px;
+  text-align: right;
+}
+
+.case1__stack {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 22px;
+  text-align: right; 
+}
+
+.case1__description {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 22px;
+  text-align: right;
+}
+
+.case1__img {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 4.5%;
+  margin-left: 40px;
 }
 
 .two {
