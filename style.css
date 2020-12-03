@@ -156,51 +156,12 @@ canvas {
   transform: translateX(-50%);
 }
 
-.cases {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.cases__title {
-  position: absolute;
-  font-size: 10em;
-  color: #333;
-  width: 50%;
-  transform: rotate(-90deg);
-  left: 0;
-  line-height: 1;
-}
-
 .case {
-  -webkit-backface-visibility: hidden;
-  position: relative;
-  transition: box-shadow .4s cubic-bezier(.25,.8,.25,1);
-  overflow: hidden;
-  color: transparent;
-}
-
-.case h4 {
-  text-decoration: none;
-  transition: .3s;
-  letter-spacing: .1em;
-  color: #F2CCB0;
-  font-size: 1.6em;
-  padding: .6em;
-  backdrop-filter: blur(6px);
-}
-
-.case:hover {
-  z-index: 99;
-}
-
-.case1 {
   display: flex;
   flex-direction: column;  
 }
 
-.case1__titleAndClient {
+.case__titleAndClient {
   display: flex;
   flex-direction: column;
   width: 50%;
@@ -208,45 +169,59 @@ canvas {
   margin-bottom: 30px;
 }
 
-.case1__title {
-  width: 85%;
+.case__title {
+  width: 100%;
   align-self: flex-start;
-  font-family: Vidaloka;
+  font-family: "Vidaloka";
   font-style: normal;
   font-weight: normal;
   font-size: 46px;
   line-height: 56px;
   color: #f2ccb0;
   margin-bottom: 35px;
+  padding-left: 5%;
+  padding-right: 30%;
 }
 
-.case1__infosAndImg {
+.case__client {
   width: 100%;
+  padding-left: 5%;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 25px;
+}
+
+.case__infosAndImg {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;  
+  padding-right: 12%;
 }
 
-.case1__infos {
-  width: 20%;
-  height: 265px;
+.case__infos {
+  width: 18%;
   display: flex;
   flex-direction: column;
   align-self: center;
   justify-content: space-evenly;
 }
 
-.case1__titleStack {
+.case__titleStack {
   font-family: "Open Sans";
   font-style: normal;
   font-weight: bold;
   font-size: 26px;
   line-height: 35px;
   text-align: right;
+  margin: 20px 0 10px 0;
 }
 
-.case1__stack {
+.case__stack {
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 300;
@@ -255,7 +230,7 @@ canvas {
   text-align: right; 
 }
 
-.case1__description {
+.case__description {
   font-family: "Open Sans";
   font-style: normal;
   font-weight: 300;
@@ -264,12 +239,13 @@ canvas {
   text-align: right;
 }
 
-.case1__img {
+.case__imgBox {
   display: flex;
   justify-content: flex-end;
   padding-right: 4.5%;
   margin-left: 40px;
 }
+
 
 .two {
   opacity: 0;
