@@ -167,7 +167,9 @@ canvas {
   text-transform: uppercase;
   transform: translateX(-50%);
 }
-
+.cases {
+  padding: 0 80px;
+}
 .case {
   display: flex;
   flex-direction: column;
@@ -177,7 +179,7 @@ canvas {
   display: flex;
   flex-direction: column;
   width: 50%;
-  align-self: flex-end;
+  align-self: flex-start;
   margin-bottom: 30px;
 }
 
@@ -190,12 +192,11 @@ canvas {
   font-size: 46px;
   line-height: 56px;
   color: #f2ccb0;
-  padding: 0 300px 35px 50px;
 }
 
 .case__client {
   width: 100%;
-  padding-left: 50px;
+
   font-family: Open Sans;
   font-style: normal;
   font-weight: normal;
@@ -210,8 +211,7 @@ canvas {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
-  padding-right: 220px;
+  justify-content: space-between;
 }
 
 .case__infos {
@@ -228,7 +228,7 @@ canvas {
   font-weight: bold;
   font-size: 26px;
   line-height: 35px;
-  text-align: right;
+  text-align: left;
   margin: 20px 0 10px 0;
 }
 
@@ -238,7 +238,7 @@ canvas {
   font-weight: 300;
   font-size: 16px;
   line-height: 22px;
-  text-align: right;
+  text-align: left;
 }
 
 .case__description {
@@ -247,32 +247,27 @@ canvas {
   font-weight: 300;
   font-size: 16px;
   line-height: 22px;
-  text-align: right;
+  text-align: left;
 }
 
 .case__imgBox {
   display: flex;
   justify-content: flex-end;
-  padding-right: 70px;
-  margin-left: 40px;
 }
 
 .inverseTitle {
   align-self: flex-start;
-  padding-left: 55px;
-}
-
-.inverseBox {
-  padding-left: 70px;
-  flex-direction: row-reverse;
-}
-
-.inverseText {
   text-align: left;
 }
 
-.inverseImg {
-  padding-right: 40px;
+.inverseBox {
+  flex-direction: row-reverse;
+  align-items: end;
+  justify-content: flex-end;
+}
+
+.secondText {
+  padding-left: 50px;
 }
 
 .two {
