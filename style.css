@@ -4,27 +4,43 @@ html {
   font-family: sans-serif;
   background-color: #141414;
   color: white;
-  font-family: 'Mulish', sans-serif;
+  font-family: "Mulish", sans-serif;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: inherit;
 }
 
-body, h1, h2, h3, h4, h5, h6, p, ol, ul {
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ol,
+ul {
   margin: 0;
   padding: 0;
-  font-family: 'Vidaloka', serif;
+  font-family: "Vidaloka", serif;
   font-weight: normal;
 }
 
-ol, ul {
+ol,
+ul {
   list-style: none;
 }
 
 img {
   max-width: 100%;
   height: auto;
+}
+
+.bold {
+  font-weight: 700;
 }
 
 .header {
@@ -41,8 +57,8 @@ img {
 }
 
 .contact__link {
-  font-family: 'Mulish', sans-serif;
-  color: #F2CCB0;
+  font-family: "Mulish", sans-serif;
+  color: #f2ccb0;
   padding-left: 2em;
 }
 
@@ -56,11 +72,11 @@ img {
 .hero__title {
   font-size: 6em;
   opacity: 0;
-  animation: reveal .3s ease-out .6s forwards;
+  animation: reveal 0.3s ease-out 0.6s forwards;
 }
 
 .hero__title em {
-  color: #F2CCB0;
+  color: #f2ccb0;
 }
 
 .hero__title span {
@@ -68,7 +84,7 @@ img {
 }
 
 .hero__text {
-  font-family: 'Mulish', sans-serif;
+  font-family: "Mulish", sans-serif;
   font-weight: lighter;
   font-size: 1.2em;
   margin: 2em 0 4em;
@@ -80,21 +96,21 @@ img {
 }
 
 .hero__link {
-  font-family: 'Mulish', sans-serif;
-  color: #F2CCB0;
+  font-family: "Mulish", sans-serif;
+  color: #f2ccb0;
   font-size: 1.2em;
   font-weight: lighter;
   animation: up 1s ease-in-out forwards;
   animation-delay: 1.3s;
   opacity: 0;
-  border: solid 1px #F2CCB0;
+  border: solid 1px #f2ccb0;
   padding: 1em 2em;
   width: 210px;
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .hero__link:hover {
-  background-color: #F2CCB0;
+  background-color: #f2ccb0;
   color: #141414;
 }
 
@@ -104,8 +120,8 @@ img {
 
 .hero__globe {
   flex: 1;
-  animation: up .9s ease-in-out forwards;
-  animation-delay: .6s;
+  animation: up 0.9s ease-in-out forwards;
+  animation-delay: 0.6s;
   opacity: 0;
   margin-top: -20px;
 }
@@ -118,7 +134,7 @@ img {
 .hero__info > h2 > span:nth-child(1),
 .hero__info > h2 > span:nth-child(2),
 .hero__info > h2 > span:nth-child(3) {
-  color: #F2CCB0;
+  color: #f2ccb0;
   font-style: italic;
 }
 
@@ -145,60 +161,124 @@ canvas {
 .society {
   position: relative;
   font-size: 14em;
-  color: #F2CCB0;
+  color: #f2ccb0;
   line-height: 1;
   margin-bottom: 1em;
   text-transform: uppercase;
   transform: translateX(-50%);
 }
 
-.cases {
-  position: relative;
+.case {
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
-.cases__title {
-  position: absolute;
-  font-size: 10em;
-  color: #333;
+.case__titleAndClient {
+  display: flex;
+  flex-direction: column;
   width: 50%;
-  transform: rotate(-90deg);
-  left: 0;
-  line-height: 1;
+  align-self: flex-end;
+  margin-bottom: 30px;
 }
 
-.case {
-  -webkit-backface-visibility: hidden;
-  position: relative;
-  transition: box-shadow .4s cubic-bezier(.25,.8,.25,1);
-  overflow: hidden;
-  color: transparent;
+.case__title {
+  width: 100%;
+  align-self: flex-start;
+  font-family: "Vidaloka";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 46px;
+  line-height: 56px;
+  color: #f2ccb0;
+  padding: 0 300px 35px 50px;
 }
 
-.case h4 {
-  text-decoration: none;
-  transition: .3s;
-  letter-spacing: .1em;
-  color: #F2CCB0;
-  font-size: 1.6em;
-  padding: .6em;
-  backdrop-filter: blur(6px);
+.case__client {
+  width: 100%;
+  padding-left: 50px;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 25px;
+  color: #f2ccb0;
 }
 
-.case:hover {
-  z-index: 99;
+.case__infosAndImg {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 220px;
 }
 
-.one {
-  opacity: 0;
-  transform: perspective(1000px) rotateX(35deg) rotateY(4deg) rotateZ(-30deg);
+.case__infos {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  justify-content: space-evenly;
+}
+
+.case__titleStack {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 35px;
+  text-align: right;
+  margin: 20px 0 10px 0;
+}
+
+.case__stack {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 22px;
+  text-align: right;
+}
+
+.case__description {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 22px;
+  text-align: right;
+}
+
+.case__imgBox {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 70px;
+  margin-left: 40px;
+}
+
+.inverseTitle {
+  align-self: flex-start;
+  padding-left: 55px;
+}
+
+.inverseBox {
+  padding-left: 70px;
+  flex-direction: row-reverse;
+}
+
+.inverseText {
+  text-align: left;
+}
+
+.inverseImg {
+  padding-right: 40px;
 }
 
 .two {
   opacity: 0;
-  transform: perspective(1000px) rotateX(35deg) rotateY(4deg) rotateZ(30deg) translateX(50%);
+  transform: perspective(1000px) rotateX(35deg) rotateY(4deg) rotateZ(30deg)
+    translateX(50%);
 }
 
 .three {
@@ -218,7 +298,7 @@ canvas {
 }
 
 .works__title em {
-  color: #F2CCB0;
+  color: #f2ccb0;
 }
 
 .work {
@@ -227,12 +307,12 @@ canvas {
 
 .work p,
 .work li {
-  font-family: 'Mulish', sans-serif;
+  font-family: "Mulish", sans-serif;
   line-height: 1.6;
 }
 
 .work b {
-  color: #F2CCB0;
+  color: #f2ccb0;
   line-height: 2.6;
 }
 
@@ -243,7 +323,7 @@ canvas {
 
 .works__text {
   padding-top: 1em;
-  font-family: 'Vidaloka', serif !important;
+  font-family: "Vidaloka", serif !important;
   font-size: 1.6em;
 }
 
@@ -253,7 +333,7 @@ canvas {
 }
 
 .footer__title em {
-  color: #F2CCB0;
+  color: #f2ccb0;
 }
 
 .footer__svg {
@@ -387,7 +467,7 @@ canvas {
   }
   .case h4 {
     font-size: 1em;
-    padding: .2em;
+    padding: 0.2em;
   }
 }
 
@@ -398,7 +478,9 @@ canvas {
 }
 
 @keyframes reveal {
-  100% {opacity: 1;}
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes up {
