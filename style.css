@@ -438,13 +438,18 @@ canvas {
   .society {
     font-size: 60px;
   }
-  .cases__title {
-    font-size: 2.4em;
+  .case__title {
+    font-size: 2em;
+    line-height: 1.5em;
   }
   .cases {
     margin: 0 auto;
-    width: 300px;
+    width: 100%;
+    padding: 0 40px;
     margin-bottom: 4em;
+  }
+  .case__img {
+    width: 450px;
   }
   .footer__title {
     padding: 0 1em;
@@ -461,15 +466,30 @@ canvas {
   .work:first-child {
     flex: 1;
   }
-  .case h4 {
-    font-size: 1em;
-    padding: 0.2em;
-  }
 }
 
-@media (max-width: 320px) {
+@media (max-width: 415px) {
   .cases {
-    width: 260px;
+    width: 340px;
+  }
+  .case__titleAndClient {
+    width: 100%;
+  }
+  .case__title {
+    font-size: 30px;
+  }
+  .case__infosAndImg {
+    flex-direction: column-reverse;
+  }
+  .case__img {
+    margin: 0 auto 20px auto;
+  }
+
+  .case__infos {
+    margin: 0 auto;
+  }
+  .secondText {
+    padding: 0;
   }
 }
 
