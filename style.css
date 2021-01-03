@@ -168,12 +168,14 @@ canvas {
   transform: translateX(-50%);
 }
 .cases {
-  padding: 0 80px;
+  max-width: 900px;
+  margin: 0 auto;
 }
+
 .case {
   display: flex;
   flex-direction: column;
-  margin-bottom: 150px;
+  margin-bottom: 250px;
 }
 
 .case__titleAndClient {
@@ -466,11 +468,11 @@ canvas {
   .work:first-child {
     flex: 1;
   }
-}
-
-@media (max-width: 415px) {
   .cases {
     width: 340px;
+  }
+  .case__img {
+    margin: 0 auto 20px auto;
   }
   .case__titleAndClient {
     width: 100%;
@@ -481,15 +483,15 @@ canvas {
   .case__infosAndImg {
     flex-direction: column-reverse;
   }
-  .case__img {
-    margin: 0 auto 20px auto;
-  }
 
   .case__infos {
     margin: 0 auto;
   }
   .secondText {
     padding: 0;
+  }
+  .case {
+    margin-bottom: 140px;
   }
 }
 
